@@ -1,8 +1,0 @@
-{
-  "properties": [
-    {
-      "name": "spring.redis.database.jedis.pool.max-active",
-      "type": "java.lang.String",
-      "description": "Description for spring.redis.database.jedis.pool.max-active."
-  }
-] }
