@@ -12,10 +12,12 @@ const router = useRouter()
 
 function onClick(){
   axios({
-    method: 'get',
-    url: 'http://localhost:8081/logout'
+    method: 'post',
+    url: 'http://localhost:8081/out'
+  }).then(function (resp){
+    router.push('/')
   })
-  router.push('/')
+
 }
 
 function test(){
@@ -23,9 +25,12 @@ function test(){
     method: 'get',
     url: 'http://localhost:8081/test'
   }).then(function (resp){
-    console.log(resp.data + "---------")
+    console.log(resp.data.data + "---------")
+    router.push("/Demo")
+  }).catch(function (error){
+    console.log(error.response.status + "++++++++++++")
   })
-  router.push("/Demo")
+
 }
 
 </script>
