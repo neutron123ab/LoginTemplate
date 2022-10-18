@@ -1,5 +1,6 @@
 package com.neutron.login_backend.controller;
 
+import com.neutron.login_backend.common.Result;
 import com.neutron.login_backend.entity.User;
 import com.neutron.login_backend.mapper.UserMapper;
 import com.neutron.login_backend.service.JwtTokenService;
@@ -41,22 +42,13 @@ public class LoginController {
     private RedisTemplate<String, User> redisTemplate;
 
     @GetMapping("/test")
-    public String test(){
+    public Result<String> test(){
         System.out.println(SecurityContextHolder.getContext());
-        return "login success";
-    }
-
-    @GetMapping("/out")
-    public void logout(){
-        Mono<String> stringMono = WebClient.create()
-                .get()
-                .uri("http://localhost:8081/logout")
-                .retrieve()
-                .bodyToMono(String.class);
+        return Result.success("login success");
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody User user) throws JOSEException {
+    public Result<String> login(@RequestBody User user) throws JOSEException {
 
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
         Authentication authenticate = authenticationManager.authenticate(token);
@@ -72,9 +64,9 @@ public class LoginController {
         String key = UUID.randomUUID().toString();
         //将用户信息存入redis中
         User userInfo = (User) authenticate.getPrincipal();
-        redisTemplate.opsForValue().set(key, userInfo, 10, TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set(key, userInfo, 3, TimeUnit.HOURS);
 
-        return jwtTokenService.generateTokenByRSA(key, rsaKey);
+        return Result.success(jwtTokenService.generateTokenByRSA(key, rsaKey));
     }
 
     /**
@@ -83,16 +75,18 @@ public class LoginController {
      * @return  状态码
      */
     @PostMapping("/signUp")
-    public String signUp(@RequestBody User user){
+    public Result<String> signUp(@RequestBody User user){
         //rsa解密
         String rawPassword = loginService.decodePassword(user.getPassword());
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         //bcrypt加密
         String password = encoder.encode(rawPassword);
         if(userMapper.addUser(user.getUsername(), password) > 0){
-            return "200";
+            return Result.success("200");
         }
-        return "400";
+        return Result.error("400");
     }
+
+
 
 }
