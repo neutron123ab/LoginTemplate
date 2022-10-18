@@ -81,11 +81,4 @@ public class SecurityConfig {
         return new ProviderManager(dao);
     }
 
-//    @Bean
-//    public LoginFilter loginFilter(){
-//        LoginFilter loginFilter = new LoginFilter();
-//
-//        return null;
-//    }
-
 }

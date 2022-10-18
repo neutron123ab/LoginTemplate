@@ -62,20 +62,14 @@ public class LoginFilter extends OncePerRequestFilter {
                 User userInfo = redisTemplate.opsForValue().get(payload);
                 if(userInfo == null){
                     //用户凭证过期
+                    redisTemplate.delete(payload);//删除用户登录信息
+                    System.out.println("用户凭证过期。。。");
                 } else {
-                    System.out.println("SecurityContext1: "+SecurityContextHolder.getContext());
                     UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userInfo, null, null);
-
                     SecurityContextHolder.getContext().setAuthentication(token);
-                    System.out.println("SecurityContext2: "+SecurityContextHolder.getContext());
                     filterChain.doFilter(request, response);
                 }
-
-
-                //System.out.println("payload: "+ payload);
-
             }
-
         }
     }
 }

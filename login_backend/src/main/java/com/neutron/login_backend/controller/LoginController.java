@@ -72,7 +72,7 @@ public class LoginController {
         String key = UUID.randomUUID().toString();
         //将用户信息存入redis中
         User userInfo = (User) authenticate.getPrincipal();
-        redisTemplate.opsForValue().set(key, userInfo, 3, TimeUnit.HOURS);
+        redisTemplate.opsForValue().set(key, userInfo, 10, TimeUnit.SECONDS);
 
         return jwtTokenService.generateTokenByRSA(key, rsaKey);
     }
