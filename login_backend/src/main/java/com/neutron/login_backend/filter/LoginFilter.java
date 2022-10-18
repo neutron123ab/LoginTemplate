@@ -35,7 +35,7 @@ public class LoginFilter extends OncePerRequestFilter {
         String authorization = request.getHeader("Authorization");
         System.out.println(authorization);
 
-        if(request.getRequestURI().equals("/login")){
+        if(request.getRequestURI().equals("/login") || request.getRequestURI().equals("/getPublicKey")){
             filterChain.doFilter(request, response);
         } else if(authorization == null){
             throw new RuntimeException("用户未登录");
