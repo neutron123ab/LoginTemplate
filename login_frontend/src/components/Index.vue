@@ -23,9 +23,12 @@ function test(){
     method: 'get',
     url: 'http://localhost:8081/test'
   }).then(function (resp){
-    console.log(resp.data + "---------")
+    console.log(resp.data.data + "---------")
+    router.push("/Demo")
+  }).catch(function (error){
+    console.log(error.response.status + "++++++++++++")
   })
-  router.push("/Demo")
+
 }
 
 </script>

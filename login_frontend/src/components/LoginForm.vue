@@ -52,7 +52,7 @@ function onClick(){
   }).then(function (resp){
     console.log(resp.data)
     if(resp.data !== null){
-      store.commit('setAuthorization', resp.data)
+      store.commit('setAuthorization', resp.data.data)
       router.push('/index')
     }
   })
@@ -66,7 +66,7 @@ function onClickSignUp(){
       method: 'get',
       url: 'http://localhost:8081/getPublicKey',
     }).then(function (resp){
-      publicKey = resp.data
+      publicKey = resp.data.data
       //rsa加密
       let encrypt = new JSEncrypt();
       encrypt.setPublicKey(publicKey);
@@ -80,7 +80,7 @@ function onClickSignUp(){
           password: encodePassword
         }
       }).then(function (resp){
-        console.log(resp.data)
+        console.log(resp.data.data)
       })
     })
 
