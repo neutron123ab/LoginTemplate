@@ -1,5 +1,6 @@
 package com.neutron.login_backend.filter;
 
+import com.neutron.login_backend.components.CustomSecurityMetadataSource;
 import com.neutron.login_backend.entity.User;
 import com.neutron.login_backend.service.JwtTokenService;
 import com.nimbusds.jose.JOSEException;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.access.intercept.DefaultFilterInvocationSecurityMetadataSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -28,12 +30,14 @@ public class LoginFilter extends OncePerRequestFilter {
     @Resource
     private RedisTemplate<String, User> redisTemplate;
 
+    @Autowired
+    private CustomSecurityMetadataSource customSecurityMetadataSource;
+
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         String authorization = request.getHeader("Authorization");
-        System.out.println(authorization);
 
         if(request.getRequestURI().equals("/login") || request.getRequestURI().equals("/getPublicKey")){
             filterChain.doFilter(request, response);
@@ -60,9 +64,13 @@ public class LoginFilter extends OncePerRequestFilter {
                     redisTemplate.delete(payload);//删除用户登录信息
                     SecurityContextHolder.clearContext();   //将用户认证信息删除
                 } else {
-                    UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userInfo, null, null);
+                    UsernamePasswordAuthenticationToken token =
+                            new UsernamePasswordAuthenticationToken(userInfo, null, userInfo.getAuthorities());
                     SecurityContextHolder.getContext().setAuthentication(token);
+                    System.out.println("SecurityContextHolder信息：" + SecurityContextHolder.getContext());
+
                 }
+                System.out.println("attributes: "+customSecurityMetadataSource.getAllConfigAttributes());
                 filterChain.doFilter(request, response);
             }
         }

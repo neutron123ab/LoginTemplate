@@ -10,9 +10,11 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Role implements Serializable {
+public class Resources implements Serializable {
+
     private Integer id;
-    private String name;    //角色名
-    private String nameZh;  //角色中文名
-    private List<Permission> permissions;  //角色所具有的权限
+    private String name;//权限名
+    private String url; //接口地址
+    private List<Permission> permissions;   //访问受保护对象所需要的权限
+
 }

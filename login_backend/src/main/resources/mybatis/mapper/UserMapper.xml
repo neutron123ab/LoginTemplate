@@ -17,11 +17,47 @@
     </select>
 
     <!--List<Role> getRolesByUserId(@Param("user_id") Integer user_id);-->
-    <select id="getRolesByUserId" resultType="com.neutron.login_backend.entity.Role">
-        SELECT r.*
-        FROM security.role r, security.user_role ur
-        where ur.user_id = #{user_id} AND r.id = ur.role_id
+    <select id="getRolesByUserId" resultMap="RoleResultMap">
+        SELECT role.*, permission.id as pid, permission.name as pname, permission.nameZh as pnameZh
+        FROM security.role role
+                 LEFT JOIN security.user_role ur
+                           ON role.id = ur.role_id AND ur.user_id = #{user_id}
+                 LEFT JOIN security.role_permission rp
+                           ON role.id = rp.role_id
+                 LEFT JOIN security.permission permission
+                           ON permission.id = rp.permission_id;
     </select>
 
+    <resultMap id="RoleResultMap" type="com.neutron.login_backend.entity.Role">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="nameZh" column="nameZh"/>
+        <collection property="permissions" ofType="com.neutron.login_backend.entity.Permission">
+            <id property="id" column="pid"/>
+            <result property="name" column="pname"/>
+            <result property="nameZh" column="pnameZh"/>
+        </collection>
+    </resultMap>
+
+    <!--List<Permission> getAllPermissions();-->
+    <select id="getAllResources" resultMap="ResourcesResultMap">
+        SELECT resources.*, p.id as pid, p.name as pname, p.nameZh as pnameZh
+        FROM security.resources resources
+                LEFT JOIN security.`permission-resources` pr
+                ON resources.id = pr.resources_id
+                LEFT JOIN security.permission p
+                ON pr.permission_id = p.id
+    </select>
+
+    <resultMap id="ResourcesResultMap" type="com.neutron.login_backend.entity.Resources">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="url" column="url"/>
+        <collection property="permissions" ofType="com.neutron.login_backend.entity.Permission">
+            <id property="id" column="pid"/>
+            <result property="name" column="pname"/>
+            <result property="nameZh" column="pnameZh"/>
+        </collection>
+    </resultMap>
 
 </mapper>
