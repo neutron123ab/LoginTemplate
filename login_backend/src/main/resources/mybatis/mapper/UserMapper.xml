@@ -44,9 +44,9 @@
         SELECT resources.*, p.id as pid, p.name as pname, p.nameZh as pnameZh
         FROM security.resources resources
                 LEFT JOIN security.`permission-resources` pr
-                ON resources.id = pr.resources_id
+                          ON resources.id = pr.resources_id
                 LEFT JOIN security.permission p
-                ON pr.permission_id = p.id
+                          ON pr.permission_id = p.id
     </select>
 
     <resultMap id="ResourcesResultMap" type="com.neutron.login_backend.entity.Resources">
