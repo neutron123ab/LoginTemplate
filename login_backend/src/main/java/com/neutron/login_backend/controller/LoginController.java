@@ -9,6 +9,7 @@ import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.jwk.RSAKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -24,6 +25,7 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @RestController
+@RequestMapping("/login")
 public class LoginController {
 
     @Autowired
@@ -41,26 +43,24 @@ public class LoginController {
     @Resource
     private RedisTemplate<String, User> redisTemplate;
 
+    //@PreAuthorize("hasAuthority('READ123')")
     @GetMapping("/test")
     public Result<String> test(){
-        System.out.println(SecurityContextHolder.getContext());
         return Result.success("login success");
     }
 
-    @PostMapping("/login")
+    @PostMapping
     public Result<String> login(@RequestBody User user) throws JOSEException {
 
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
+        UsernamePasswordAuthenticationToken token =
+                new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
         Authentication authenticate = authenticationManager.authenticate(token);
         if(Objects.isNull(authenticate)){
             throw new RuntimeException("用户名或密码错误");
         }
 
-        System.out.println("登录成功：" + SecurityContextHolder.getContext());
-
         //登录成功，返回JWT字符串
         RSAKey rsaKey = jwtTokenService.generateRsaKey();
-        System.out.println("rsaKeyLogin: "+rsaKey);
         String key = UUID.randomUUID().toString();
         //将用户信息存入redis中
         User userInfo = (User) authenticate.getPrincipal();

@@ -22,13 +22,18 @@ public class User implements UserDetails {
     private boolean accountNonExpired;
     private boolean accountNonLocked;
     private boolean credentialNonExpired;
-    private List<Role> roles = new ArrayList<>();
+    private List<Role> roles;   //用户所具有的角色
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        ArrayList<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
         for (Role role : roles) {
-            authorities.add(new SimpleGrantedAuthority(role.getName()));
+            List<SimpleGrantedAuthority> roleAuthorities = new ArrayList<>();
+            for (Permission permission : role.getPermissions()) {
+                //保存权限信息
+                roleAuthorities.add(new SimpleGrantedAuthority(permission.getName()));
+            }
+            authorities.addAll(roleAuthorities);
         }
 
         return authorities;
