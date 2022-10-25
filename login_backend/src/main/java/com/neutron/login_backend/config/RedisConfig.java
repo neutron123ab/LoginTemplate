@@ -13,7 +13,7 @@ public class RedisConfig extends CachingConfigurerSupport {
     @Bean
     public LettuceConnectionFactory redisConnection() {
         RedisStandaloneConfiguration server = new RedisStandaloneConfiguration();
-        server.setHostName("121.4.139.32");
+        server.setHostName("********"); //这里写你redis主机地址就好了
         server.setDatabase(0); // 指定数据库
         server.setPort(6379);
         return new LettuceConnectionFactory(server);
