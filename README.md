@@ -1,5 +1,4 @@
 # LoginTemplate
-# 项目仍在完善中
 
 基于SpringSecurity + JWT的前后端分离登录模板
 
