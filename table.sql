@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS `user`
     `enabled`              TINYINT(1)   DEFAULT NULL COMMENT '账户是否可用',
     `accountNonExpired`    TINYINT(1)   DEFAULT NULL COMMENT '账户是否没有过期',
     `accountNonLocked`     TINYINT(1)   DEFAULT NULL COMMENT '账户是否没有锁定',
-    `credentialNonExpired` TINYINT(1)   DEFAULT NULL COMMENT '凭证是否没有过期',
+    `credentialsNonExpired` TINYINT(1)   DEFAULT NULL COMMENT '凭证是否没有过期',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
