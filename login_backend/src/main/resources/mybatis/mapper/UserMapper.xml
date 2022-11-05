@@ -6,7 +6,7 @@
 
     <!--Integer addUser(@Param("username") String username, @Param("password") String password);-->
     <insert id="addUser">
-        INSERT INTO security.user(username, password, enabled, accountNonExpired, accountNonLocked, credentialNonExpired) VALUES(#{username}, #{password}, 1, 1, 1, 1);
+        INSERT INTO security.user(username, password, enabled, accountNonExpired, accountNonLocked, credentialsNonExpired) VALUES(#{username}, #{password}, 1, 1, 1, 1);
     </insert>
 
     <!--User queryUserByUsername(String username);-->
