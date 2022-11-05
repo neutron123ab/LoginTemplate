@@ -21,7 +21,7 @@ public class User implements UserDetails {
     private boolean enabled;
     private boolean accountNonExpired;
     private boolean accountNonLocked;
-    private boolean credentialNonExpired;
+    private boolean credentialsNonExpired;
     private List<Role> roles;   //用户所具有的角色
 
     @Override
@@ -51,7 +51,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return credentialNonExpired;
+        return credentialsNonExpired;
     }
 
     @Override
