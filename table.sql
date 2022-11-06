@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `role_permission`
   DEFAULT CHARSET = utf8;
 
 # 权限-资源关联表
-CREATE TABLE IF NOT EXISTS `permission-resources`
+CREATE TABLE IF NOT EXISTS `permission_resources`
 (
     `id`            INT(11) NOT NULL AUTO_INCREMENT COMMENT '表id',
     `permission_id` INT(11) DEFAULT NULL COMMENT '权限id',
