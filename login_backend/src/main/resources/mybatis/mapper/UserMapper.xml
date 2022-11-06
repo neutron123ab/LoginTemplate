@@ -43,7 +43,7 @@
     <select id="getAllResources" resultMap="ResourcesResultMap">
         SELECT resources.*, p.id as pid, p.name as pname, p.nameZh as pnameZh
         FROM security.resources resources
-                LEFT JOIN security.`permission-resources` pr
+                LEFT JOIN security.`permission_resources` pr
                           ON resources.id = pr.resources_id
                 LEFT JOIN security.permission p
                           ON pr.permission_id = p.id
