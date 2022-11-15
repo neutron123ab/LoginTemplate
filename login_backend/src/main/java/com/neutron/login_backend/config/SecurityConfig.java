@@ -89,10 +89,6 @@ public class SecurityConfig {
         corsConfiguration.addAllowedHeader("*");
         corsConfiguration.addAllowedMethod("*");
         corsConfiguration.addAllowedOrigin("*");
-//        corsConfiguration.setAllowCredentials(true);
-//        corsConfiguration.setAllowedHeaders(Collections.singletonList("*"));
-//        corsConfiguration.setAllowedMethods(Collections.singletonList("*"));
-//        corsConfiguration.setAllowedOrigins(Collections.singletonList("http://localhost:8081"));
         corsConfiguration.setMaxAge(3600L);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", corsConfiguration);
