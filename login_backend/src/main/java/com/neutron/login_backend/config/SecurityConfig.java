@@ -58,7 +58,7 @@ public class SecurityConfig {
                 })
                 .and()
                 .authorizeRequests()
-                .antMatchers("/login", "/signUp", "/getPublicKey").permitAll()
+                .antMatchers("/login", "/login/signUp", "/getPublicKey").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .cors()
