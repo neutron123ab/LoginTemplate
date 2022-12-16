@@ -1,7 +1,7 @@
 <template>
   login success
   <el-button type="danger" @click="onClick">退出登录</el-button>
-  <el-button type="warning" @click="test">Warning</el-button>
+  <el-button type="warning" @click="test">权限测试</el-button>
 </template>
 
 <script setup>
