@@ -7,3 +7,6 @@ spring:
     username: 自己的数据库用户名
     password: 数据库密码
     driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis:
+  mapper-locations: classpath:mybatis/mapper/*.xml
