@@ -74,7 +74,7 @@ function onClickSignUp(){
 
       axios({
         method: 'post',
-        url: 'http://localhost:8081/signUp',
+        url: 'http://localhost:8081/login/signUp',
         data: {
           username: formLabelAlign.username,
           password: encodePassword
